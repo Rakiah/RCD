@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace RakiahDevConsole
 {
-	public abstract class DCRConsoleLine 
+	public abstract class RDCConsoleLine 
 	{
 		/// <summary> command that was sent (parameters) </summary>
 		public string 		primaryText;
@@ -14,10 +14,10 @@ namespace RakiahDevConsole
 		public string 		secondaryText;
 
 		/// <summary> the holder for the log </summary>
-		public Text			primaryTextComponent;
+		public Text		primaryTextComponent;
 
 		/// <summary> the holder for the secondaryText component </summary>
-		public Text			secondaryTextComponent;
+		public Text		secondaryTextComponent;
 
 		public Image		graphicsImg;
 		
@@ -61,7 +61,7 @@ namespace RakiahDevConsole
 	}
 
 	[System.Serializable]
-	public class LogMessage : DCRConsoleLine
+	public class LogMessage : RDCConsoleLine
 	{
 		/// <summary> id of the message </summary>
 		public float 								timeReceived;
@@ -103,7 +103,7 @@ namespace RakiahDevConsole
 			type = _type;
 
 			base.Initialize(_log, string.Format("{0:0.00}", _timeReceived));
-			typeComponent.sprite = DCRInterface.TypeToTexture(type);
+			typeComponent.sprite = RDCInterface.TypeToTexture(type);
 		}
 
 		public void Release() 
@@ -129,7 +129,7 @@ namespace RakiahDevConsole
 	}
 
 	[System.Serializable]
-	public class CommandHelperMessage : DCRConsoleLine
+	public class CommandHelperMessage : RDCConsoleLine
 	{
 		private const int 									MaxPoolSize 
 			= 65536;

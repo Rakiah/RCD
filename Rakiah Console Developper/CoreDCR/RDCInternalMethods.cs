@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace RakiahDevConsole
 {
-	public class DCRInternalMethods
+	public class RDCInternalMethods
 	{
-		DCRManager manager;
+		RDCManager manager;
 
-		public DCRInternalMethods(DCRManager _manager)
+		public RDCInternalMethods(RDCManager _manager)
 		{
 			manager = _manager;
 		}
@@ -31,7 +31,7 @@ namespace RakiahDevConsole
 
 		object DeserializeVector3 (string value)
 		{
-			string [] pos = value.Split('.');
+			string [] pos = value.Split('/');
 			Vector3 DeserializedValue = new Vector3(0.0f, 0.0f, 0.0f);
 
 			if (pos.Length != 3)

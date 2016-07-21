@@ -5,17 +5,13 @@ using System.Collections.Generic;
 
 namespace RakiahDevConsole
 {
-	public class DCRInternalItems
+	public class RDCInternalItems
 	{
 		///----------Members Part-------------///
 
-
-		/// <summary> Manager for the other core components </summary>
-		private DCRManager			Manager;
-
 		/// <summary> Back end version of Items call Items instead </summary>
-		private List<DCRItem> 		CacheItems
-		= new List<DCRItem>();
+		private List<RDCItem> 			CacheItems
+		= new List<RDCItem>();
 
 		/// <summary> Check if the List is initialized or not </summary>
 		private bool 				Initialized;
@@ -24,7 +20,7 @@ namespace RakiahDevConsole
 		/// Front end version of CacheItems, it always ensure that the list
 		/// is correctly initialized and ready to use
 		/// </summary>
-		internal List<DCRItem> 		Items
+		internal List<RDCItem> 			Items
 		{
 			get
 			{
@@ -45,12 +41,6 @@ namespace RakiahDevConsole
 
 		///------------Methods Part-------------///
 
-
-		public DCRInternalItems (DCRManager manager)
-		{
-			Manager = manager;
-		}
-
 		///<summary> Initialize the list of items </summary>
 		internal void InitializeItems ()
 		{
@@ -67,15 +57,15 @@ namespace RakiahDevConsole
 					continue;
 				}
 				
-				DCRItem item = new DCRItem (pObject);
+				RDCItem item = new RDCItem (pObject);
 				CacheItems.Add(item);
 			}
 
 			Initialized = true;
 		}
 
-		/// <summary> Get a specific DCRItem with an object as key </summary>
-		internal DCRItem Get (int id)
+		/// <summary> Get a specific RDCItem with an object as key </summary>
+		internal RDCItem Get (int id)
 		{
 			if (id >= 0 && id < Items.Count)
 				return Items[id];
@@ -91,7 +81,7 @@ namespace RakiahDevConsole
 		}
 	}
 
-	internal class DCRItem
+	internal class RDCItem
 	{
 		/// <summary> item that the behaviours are attached </summary>
 		public GameObject 								Obj;
@@ -100,10 +90,10 @@ namespace RakiahDevConsole
 		public bool 									isParent;
 
 		/// <summary> list containing all the behaviours </summary>
-		public Dictionary<string, DCRMethodsItem> 		components
-		= new Dictionary<string, DCRMethodsItem> ();
+		public Dictionary<string, RDCMethodsItem> 		components
+		= new Dictionary<string, RDCMethodsItem> ();
 
-		public DCRItem (GameObject _obj)
+		public RDCItem (GameObject _obj)
 		{
 			Obj = _obj;
 			if(_obj.transform.parent == null) 
@@ -119,15 +109,15 @@ namespace RakiahDevConsole
 				if (behaviorNamespace != null)
 					if (behaviorNamespace.Contains("UnityEngine")) 
 						continue;
-				components.Add(behavior.GetType().Name ,new DCRMethodsItem(behavior.GetType().GetMethods(BindingFlags.Public |
-			                                                                     						 BindingFlags.Default |
-			                                                                     						 BindingFlags.DeclaredOnly |
-			                                                                     						 BindingFlags.Instance), behavior));
+				components.Add(behavior.GetType().Name, new RDCMethodsItem(behavior.GetType().GetMethods(	BindingFlags.Public |
+			                                                                     					BindingFlags.Default |
+			                                                                     					BindingFlags.DeclaredOnly |
+			                                                                     					BindingFlags.Instance), behavior));
 			}
 		}
 	}
 
-	internal class DCRMethodsItem
+	internal class RDCMethodsItem
 	{
 		/// <summary> Name of the behaviour </summary>
 		public string 							nameBehaviour;
@@ -139,7 +129,7 @@ namespace RakiahDevConsole
 		public Dictionary<string, MethodInfo> 	MethodLookup
 		= new Dictionary<string, MethodInfo>();
 
-		public DCRMethodsItem (MethodInfo [] methods, MonoBehaviour Item)
+		public RDCMethodsItem (MethodInfo [] methods, MonoBehaviour Item)
 		{
 			behaviour = Item;
 			nameBehaviour = Item.GetType().Name;

@@ -4,19 +4,19 @@ using System.Collections.Generic;
 
 namespace RakiahDevConsole
 {
-	public class DCRManager : MonoBehaviour 
+	public class RDCManager : MonoBehaviour 
 	{
-		public static DCRManager	LoggerManager;
+		public static RDCManager	LoggerManager;
 
-		internal DCRInternalItems 	InternalItems;
+		internal RDCInternalItems 	InternalItems;
 
-		internal DCRInternalMethods	InternalMethods;
+		internal RDCInternalMethods	InternalMethods;
 
-		internal DCRCommands		Commands;
+		internal RDCCommands		Commands;
 
-		internal DCRInterface		Interface;
+		internal RDCInterface		Interface;
 
-		internal DCRSerializer		Serializer;
+		internal RDCSerializer		Serializer;
 
 		public delegate void OnCommandLaunchedEvent(LogMessage log);
 		/// <summary> Fired after a command was succesfully launched </summary>
@@ -30,12 +30,12 @@ namespace RakiahDevConsole
 		{
 			LoggerManager = this;
 
-			Interface = GetComponent<DCRInterface>();
+			Interface = GetComponent<RDCInterface>();
 
-			Commands = new DCRCommands(this);
-			InternalItems = new DCRInternalItems(this);
-			InternalMethods = new DCRInternalMethods(this);
-			Serializer = new DCRSerializer(this);
+			Commands = new RDCCommands(this);
+			InternalItems = new RDCInternalItems();
+			InternalMethods = new RDCInternalMethods(this);
+			Serializer = new RDCSerializer(this);
 
 			InternalMethods.Initialize();
 			Commands.InitializeMethods();
@@ -48,12 +48,6 @@ namespace RakiahDevConsole
 		void Start ()
 		{
 			Application.logMessageReceivedThreaded += InternalUnityLog;
-		}
-
-		void Update ()
-		{
-			if (Input.GetKey(KeyCode.Q))
-				Commands.ParseCommand("Bite TRUE 2000 204.5 FALSE");
 		}
 
 		void OnLevelWasLoaded (int level)
@@ -112,7 +106,7 @@ namespace RakiahDevConsole
 		public void RegisterDescription (string commandName, string description)
 		{
 			if (!Commands.Exists(commandName))
-				Debug.Log ("DCR || command : " + commandName + "not found for description registering");
+				Debug.Log ("RDC || command : " + commandName + "not found for description registering");
 			Commands.AddDescription(commandName, description);
 		}
 

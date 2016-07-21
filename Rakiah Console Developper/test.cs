@@ -3,139 +3,109 @@ using System.Collections;
 using System.Reflection;
 using RakiahDevConsole;
 
+public class MyCustomType
+{
+	public float test1;
+	public float test2;
+	public float test3;
+	public float test4;
+
+	public MyCustomType(float x, float y, float z, float w)
+	{
+		test1 = x;
+		test2 = y;
+		test3 = z;
+		test4 = w;
+	}
+}
+
 public class test : MonoBehaviour 
 {
-	public void Test ()
+	// deserialize method for your custom type
+	object DeserializeMyCustomType(string value)
 	{
-		Debug.Log("test");
+		float x = 0.0f;
+		float y = 0.0f;
+		float z = 0.0f;
+		float w = 0.0f;
+
+		string[] pos = value.Split('/');
+
+		if (pos.Length != 4)
+			return null;
+
+		if (!float.TryParse(pos[0], out x))
+			return (null);
+		if (!float.TryParse(pos[1], out y))
+			return (null);
+		if (!float.TryParse(pos[2], out z))
+			return (null);
+		if (!float.TryParse(pos[3], out w))
+			return (null);
+
+		return (new MyCustomType(x, y, z, w));
 	}
 
-	[Command("Allow you to write every parameters that you sent it")]
-	void Bite (bool repeat_times, ulong ts, float ts1, bool ts2, LogMessage message)
+	public void Start()
+	{
+		// add it to logger
+		RDCManager.LoggerManager.RegisterCustomType(typeof(MyCustomType), DeserializeMyCustomType);
+	}
+
+	public void Test ()
+	{
+		Debug.Log("Invoked this method from console !");
+	}
+
+	[Command("repeat every parameters that you sent it, just a test")]
+	void RepeatMe (bool repeat_times, ulong ts, float ts1, bool ts2, LogMessage message)
 	{
 		Debug.Log(repeat_times + " : " + ts + " : " + ts1 + " : " + ts2);
 	}
 
-	[Command("set the position of an object")]
-	void set1(DCRItem item, Vector3 position)
+	[Command("Print Custom Type")]
+	void PrintCustom(MyCustomType custom)
 	{
-		Debug.Log(position.ToString());
+		Debug.Log(custom.test1 + " : " + custom.test2 + " : " + custom.test3 + " : " + custom.test4);
 	}
 
-	[Command("set the position of an object")]
-	void set2(DCRItem item, Vector3 position)
+	[Command("Set the position of an object with a vector3 (separate components using /)")]
+	void SetPosition(RDCItem obj, Vector3 position)
 	{
-		Debug.Log(position.ToString());
+		obj.Obj.transform.position = position;
 	}
 
-	[Command("set the position of an object")]
-	void set3(DCRItem item, Vector3 position)
+	[Command("Set the rotation of an object with a vector3 (separate components using /)")]
+	void SetRotation(RDCItem obj, Vector3 rotation)
 	{
-		Debug.Log(position.ToString());
+		obj.Obj.transform.localEulerAngles = rotation;
 	}
 
-	[Command("set the position of an object")]
-	void set134(DCRItem item, Vector3 position)
+	[Command("Set the scale of an object with a vector3 (separate components using /)")]
+	void SetScale(RDCItem obj, Vector3 scale)
 	{
-		Debug.Log(position.ToString());
+		obj.Obj.transform.localScale = scale;	
 	}
 
-	[Command("set the position of an object")]
-	void set1414(DCRItem item, Vector3 position)
+	[Command("Set the sendrate of Network")]
+	void SetSendRate(int value)
 	{
-		Debug.Log(position.ToString());
+		Network.sendRate = value;
+		Debug.Log(Network.sendRate);
 	}
 
-	[Command("set the position of an object")]
-	void set2424(DCRItem item, Vector3 position)
-	{
-		Debug.Log(position.ToString());
-	}
-
-	[Command("set the position of an object")]
-	void set797(DCRItem item, Vector3 position)
-	{
-		Debug.Log(position.ToString());
-	}
-
-	[Command("set the position of an object")]
-	void set86713(DCRItem item, Vector3 position)
-	{
-		Debug.Log(position.ToString());
-	}
-
-	[Command("set the position of an object")]
-	void set46248(DCRItem item, Vector3 position)
-	{
-		Debug.Log(position.ToString());
-	}
-
-	[Command("set the position of an object")]
-	void set24857(DCRItem item, Vector3 position)
-	{
-		Debug.Log(position.ToString());
-	}
-
-	[Command("set the position of an object")]
-	void set6(DCRItem item, Vector3 position)
-	{
-		Debug.Log(position.ToString());
-	}
-
-	[Command("set the position of an object")]
-	void setpos(DCRItem item, Vector3 position)
-	{
-		Debug.Log(position.ToString());
-	}
-
-	[Command("set the position of an object")]
-	void set7(DCRItem item, Vector3 position)
-	{
-		Debug.Log(position.ToString());
-	}
-
-	[Command("set the position of an object")]
-	void set5(DCRItem item, Vector3 position)
-	{
-		Debug.Log(position.ToString());
-	}
-
-	[Command("set the rotation of an object")]
-	void setrot(float x, float y, float z)
-	{
-		
-	}
-
-	[Command("set the scale of an object")]
-	void setscale(float x, float y, float z)
-	{
-		
-	}
-
-	[Command("set the sendrate of an object")]
-	void setsendrate(float x, float y, float z)
-	{
-		
-	}
-
-	[Command("testparams")]
-	void testparams (float x, float y, float z, params object [] parameters)
-	{
-
-	}
-
-	[Command("testautocompletion")]
-	void testcompletion (DCRItem obj, DCRMethodsItem behav, MethodInfo method)
+	[Command("Invoke a specific method Parameter 1 = object Parameter 2 = Component Parameter 3 = Method name")]
+	void InvokeMethod (RDCItem obj, RDCMethodsItem behav, MethodInfo method)
 	{
 		behav.behaviour.Invoke(method.Name, 0.1f);
 	}
 
-	[Command("print internal items")]
-	void printitems ()
+	[Command("print internal cached items")]
+	void PrintItems ()
 	{
-		for(int i = 0; i < DCRManager.LoggerManager.InternalItems.Count; i ++)
+		for(int i = 0; i < RDCManager.LoggerManager.InternalItems.Count; i ++)
 		{
-			DCRItem item = DCRManager.LoggerManager.InternalItems.Get(i);
+			RDCItem item = RDCManager.LoggerManager.InternalItems.Get(i);
 
 			Debug.Log(item.Obj.name + " : " + item.isParent + " : " + i.ToString());
 		}

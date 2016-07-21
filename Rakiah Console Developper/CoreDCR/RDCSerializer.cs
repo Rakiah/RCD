@@ -5,14 +5,14 @@ using System.Collections.Generic;
 
 namespace RakiahDevConsole
 {
-	public class DCRSerializer
+	public class RDCSerializer
 	{
-		internal Dictionary<Type, Func<string, object>> Deserializers =
+		internal Dictionary<Type, Func<string, object>>	Deserializers =
 		new Dictionary<Type, Func<string, object>>();
 
-		internal DCRManager 							manager;
+		internal RDCManager 				manager;
 
-		public DCRSerializer (DCRManager _manager)
+		public RDCSerializer (RDCManager _manager)
 		{
 			manager = _manager;
 		}
@@ -105,7 +105,7 @@ namespace RakiahDevConsole
 				return (object)tmp;
 			}
 
-			if (type == typeof(DCRItem))
+			if (type == typeof(RDCItem))
 			{
 				int tmp = -1;
 			   	if (!int.TryParse(value, out tmp))
@@ -122,7 +122,7 @@ namespace RakiahDevConsole
 			return null;
 		}
 
-		internal object DeserializeMethodItem (string value, DCRItem item)
+		internal object DeserializeMethodItem (string value, RDCItem item)
 		{
 			if (item == null)
 				return null;
@@ -132,7 +132,7 @@ namespace RakiahDevConsole
 			return null;
 		}
 
-		internal object DeserializeMethod (string value, DCRMethodsItem behaviour)
+		internal object DeserializeMethod (string value, RDCMethodsItem behaviour)
 		{
 			if (behaviour == null)
 				return null;

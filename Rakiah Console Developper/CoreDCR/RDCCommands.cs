@@ -116,12 +116,12 @@ namespace RakiahDevConsole
 		}
 	}
 
-	internal class DCRCommands 
+	internal class RDCCommands 
 	{
 		///----------Members Part-------------///
 
 		/// <summary> Manager for the other core components </summary>
-		private DCRManager							Manager;
+		private RDCManager							Manager;
 
 		/// <summary> 
 		/// Cached Methods (back end dictionary), <Methods> should be called instead,
@@ -173,7 +173,7 @@ namespace RakiahDevConsole
 
 
 
-		public DCRCommands (DCRManager manager)
+		public RDCCommands (RDCManager manager)
 		{
 			Manager = manager;
 		}
@@ -377,17 +377,17 @@ namespace RakiahDevConsole
 				count++;
 
 			object [] paramsobj = new object[count];
-			DCRItem item = null;
-			DCRMethodsItem behavior = null;
+			RDCItem item = null;
+			RDCMethodsItem behavior = null;
 
 			for (i = 0; i < command.ParamCount; i++)
 			{
 				System.Type type = command.GetParamType(i);
 
-				if (type == typeof(DCRMethodsItem))
+				if (type == typeof(RDCMethodsItem))
 				{
 					paramsobj[i] = Manager.Serializer.DeserializeMethodItem(parsedCmd[i + i], item);
-					behavior = (DCRMethodsItem)paramsobj[i];
+					behavior = (RDCMethodsItem)paramsobj[i];
 				}
 
 				else if (type == typeof(MethodInfo))
@@ -398,8 +398,8 @@ namespace RakiahDevConsole
 				else
 				{
 					paramsobj[i] = Manager.Serializer.Deserialize(command.GetParamType(i), parsedCmd[i + 1]);
-					if (type == typeof(DCRItem))
-						item = (DCRItem)paramsobj[i];
+					if (type == typeof(RDCItem))
+						item = (RDCItem)paramsobj[i];
 				}
 
 				if (paramsobj[i] == null)
@@ -467,7 +467,7 @@ namespace RakiahDevConsole
 		internal void PrintCommands ()
 		{
 			foreach (Command command in Methods.Values)
-				Debug.Log("DCR : " + command.Name);
+				Debug.Log("RDC : " + command.Name);
 		}
 
 	}

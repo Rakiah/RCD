@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace RakiahDevConsole
 {
-	public class DCRInterface : MonoBehaviour 
+	public class RDCInterface : MonoBehaviour 
 	{
 		///----------Members Part-------------///
 
@@ -16,7 +16,7 @@ namespace RakiahDevConsole
 		= KeyCode.LeftAlt;
 
 		/// <summary> state of the console </summary>
-		public bool								Active
+		public bool							Active
 		= false;
 
 		/// <summary> holder for members of the Logs window </summary>
@@ -29,21 +29,21 @@ namespace RakiahDevConsole
 		public InputField						CommandInputField;
 
 		/// <summary> max ammounts of message logged in the console at same time </summary>
-		public int								MaxLoggedMessage
+		public int							MaxLoggedMessage
 		= 3000;
 
 		/// <summary> Manager for the other core components</summary>
-		private DCRManager						Manager;
+		private RDCManager						Manager;
 
 		/// <summary> Accesor to the logs </summary>
-		public List<LogMessage> 				Logs 
+		public List<LogMessage> 					Logs 
 		= new List<LogMessage>();
 
 		/// <summary> Accesor to the commands list </summary>
-		public List<CommandHelperMessage>		CommandsMessage
+		public List<CommandHelperMessage>				CommandsMessage
 		= new List<CommandHelperMessage>();
 
-		public CommandHelperMessage				SelectedCommandMessage		
+		public CommandHelperMessage					SelectedCommandMessage		
 		{ 
 			get 
 			{ 
@@ -54,7 +54,7 @@ namespace RakiahDevConsole
 		}
 
 		/// <summary> Sprite corresponding to the type of the log </summary>
-		public static List<Sprite>				LogTypeTextures
+		public static List<Sprite>					LogTypeTextures
 		= new List<Sprite>();
 
 		public Transform 						GeneralInformations;
@@ -62,15 +62,11 @@ namespace RakiahDevConsole
 		public Transform						SelectedElementInfo;
 
 		public Canvas							MainCanvas;
-
-		/// <summary> hierarchy of the command helper </summary>
-		private CommandHelperHierarchy			currentHierarchy
-			= CommandHelperHierarchy.None;
 		
 		/// <summary> Command helper object filled when user write </summary>
-		private commandHelperObject				CmdHelperStruct;
+		private commandHelperObject					CmdHelperStruct;
 
-		private List<string> 					sysInfo
+		private List<string> 						sysInfo
 		= new List<string>();
 
 		private List<Text> 						sysInfoText
@@ -79,16 +75,13 @@ namespace RakiahDevConsole
 		private List<Text>						selectedElementText
 		= new List<Text>();
 
-		private int								fps;
+		private int							fps;
 
 		private float							fpsTime;
 
 		private float							navTime;
 
-		private int								SelectedLogMessageID
-		= -1;
-
-		private int								SelectedCommmandHelperMessageID
+		private int							SelectedCommmandHelperMessageID
 		= -1;
 
 		public float							NavigationTimer 
@@ -96,7 +89,7 @@ namespace RakiahDevConsole
 
 		///------------Methods Part-------------///
 
-		public void Initialize (DCRManager _manager)
+		public void Initialize (RDCManager _manager)
 		{
 			Manager = _manager;
 			CmdHelperStruct = new commandHelperObject();
@@ -288,7 +281,7 @@ namespace RakiahDevConsole
 			}
 			else if (hierarchy == CommandHelperHierarchy.Items)
 			{
-				foreach(DCRItem item in Manager.InternalItems.Items)
+				foreach(RDCItem item in Manager.InternalItems.Items)
 				{
 					CommandHelperMessage message = CommandHelperMessage.New(Manager.InternalItems.Items.IndexOf(item).ToString(), item.Obj.name, CommandHelperWindow.ScrollZone, CommandHelperWindow.UIElementPrefab);
 					CommandsMessage.Add(message);
@@ -298,7 +291,7 @@ namespace RakiahDevConsole
 			}
 			else if (hierarchy == CommandHelperHierarchy.Behaviours)
 			{
-				foreach(DCRMethodsItem behaviour in CmdHelperStruct.obj.components.Values)
+				foreach(RDCMethodsItem behaviour in CmdHelperStruct.obj.components.Values)
 				{
 					CommandHelperMessage message = CommandHelperMessage.New(behaviour.nameBehaviour, behaviour.MethodLookup.Count.ToString(), CommandHelperWindow.ScrollZone, CommandHelperWindow.UIElementPrefab);
 					CommandsMessage.Add(message);
@@ -352,7 +345,6 @@ namespace RakiahDevConsole
 			}
 
 			CommandHelperWindow.CalculateZone(CommandsMessage.Count);
-			currentHierarchy = hierarchy;
 		}
 			
 		private void HighlightCommandHelper(int id)
@@ -429,7 +421,7 @@ namespace RakiahDevConsole
 				for (int i = 1; i < ParsedCmd.Length; i++)
 				{
 					System.Type paramType = cmd.GetParamType(i - 1);
-					if (paramType == typeof(DCRItem))
+					if (paramType == typeof(RDCItem))
 					{
 						/// not last element, check if this element (which is done) is correct
 						if (i < ParsedCmd.Length - 1)
@@ -437,7 +429,7 @@ namespace RakiahDevConsole
 							int obj = -1;
 							if (int.TryParse(ParsedCmd[i], out obj))
 							{
-								DCRItem item = Manager.InternalItems.Get(obj);
+								RDCItem item = Manager.InternalItems.Get(obj);
 								if (item != null)
 									CmdHelperStruct.obj = item;
 								else 
@@ -455,7 +447,7 @@ namespace RakiahDevConsole
 						/// its the last element, give the user the choice
 						else return CommandHelperHierarchy.Items;
 					}
-					else if(paramType == typeof(DCRMethodsItem))
+					else if(paramType == typeof(RDCMethodsItem))
 					{
 						if (CmdHelperStruct.CanShowBehaviours())
 						{
@@ -541,7 +533,7 @@ namespace RakiahDevConsole
 			if (id >= 0 && id < Logs.Count)
 				return Logs[id];
 
-			Debug.Log ("DCR : wrong id for message " + id);
+			Debug.Log ("RDC : wrong id for message " + id);
 			return null;
 		}
 
@@ -558,9 +550,9 @@ namespace RakiahDevConsole
 
 		internal int				currentParam = 0;
 
-		internal DCRItem 			obj = null;
+		internal RDCItem 			obj = null;
 
-		internal DCRMethodsItem 	behavior = null;
+		internal RDCMethodsItem 	behavior = null;
 
 		internal MethodInfo 		method = null;
 
