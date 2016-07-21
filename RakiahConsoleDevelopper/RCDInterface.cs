@@ -5,9 +5,9 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace RakiahDevConsole
+namespace RakiahConsoleDevelopper
 {
-	public class RDCInterface : MonoBehaviour 
+	public class RCDInterface : MonoBehaviour 
 	{
 		///----------Members Part-------------///
 
@@ -33,7 +33,7 @@ namespace RakiahDevConsole
 		= 3000;
 
 		/// <summary> Manager for the other core components</summary>
-		private RDCManager						Manager;
+		private RCDManager						Manager;
 
 		/// <summary> Accesor to the logs </summary>
 		public List<LogMessage> 					Logs 
@@ -54,7 +54,7 @@ namespace RakiahDevConsole
 		}
 
 		/// <summary> Sprite corresponding to the type of the log </summary>
-		public static List<Sprite>					LogTypeTextures
+		public List<Sprite>						LogTypeTextures
 		= new List<Sprite>();
 
 		public Transform 						GeneralInformations;
@@ -89,15 +89,12 @@ namespace RakiahDevConsole
 
 		///------------Methods Part-------------///
 
-		public void Initialize (RDCManager _manager)
+		public void Initialize (RCDManager _manager)
 		{
 			Manager = _manager;
 			CmdHelperStruct = new commandHelperObject();
 
 			int i = 0;
-
-			for (i = 0; i < 6; i++)
-				LogTypeTextures.Add(Resources.Load("Textures/LogTypeTexture" + i, typeof(Sprite)) as Sprite);
 
 			for (i = 1; i < GeneralInformations.childCount; i++)
 				sysInfoText.Add(GeneralInformations.GetChild(i).GetComponent<Text>());
@@ -281,7 +278,7 @@ namespace RakiahDevConsole
 			}
 			else if (hierarchy == CommandHelperHierarchy.Items)
 			{
-				foreach(RDCItem item in Manager.InternalItems.Items)
+				foreach(RCDItem item in Manager.InternalItems.Items)
 				{
 					CommandHelperMessage message = CommandHelperMessage.New(Manager.InternalItems.Items.IndexOf(item).ToString(), item.Obj.name, CommandHelperWindow.ScrollZone, CommandHelperWindow.UIElementPrefab);
 					CommandsMessage.Add(message);
@@ -291,7 +288,7 @@ namespace RakiahDevConsole
 			}
 			else if (hierarchy == CommandHelperHierarchy.Behaviours)
 			{
-				foreach(RDCMethodsItem behaviour in CmdHelperStruct.obj.components.Values)
+				foreach(RCDMethodsItem behaviour in CmdHelperStruct.obj.components.Values)
 				{
 					CommandHelperMessage message = CommandHelperMessage.New(behaviour.nameBehaviour, behaviour.MethodLookup.Count.ToString(), CommandHelperWindow.ScrollZone, CommandHelperWindow.UIElementPrefab);
 					CommandsMessage.Add(message);
@@ -421,7 +418,7 @@ namespace RakiahDevConsole
 				for (int i = 1; i < ParsedCmd.Length; i++)
 				{
 					System.Type paramType = cmd.GetParamType(i - 1);
-					if (paramType == typeof(RDCItem))
+					if (paramType == typeof(RCDItem))
 					{
 						/// not last element, check if this element (which is done) is correct
 						if (i < ParsedCmd.Length - 1)
@@ -429,7 +426,7 @@ namespace RakiahDevConsole
 							int obj = -1;
 							if (int.TryParse(ParsedCmd[i], out obj))
 							{
-								RDCItem item = Manager.InternalItems.Get(obj);
+								RCDItem item = Manager.InternalItems.Get(obj);
 								if (item != null)
 									CmdHelperStruct.obj = item;
 								else 
@@ -447,7 +444,7 @@ namespace RakiahDevConsole
 						/// its the last element, give the user the choice
 						else return CommandHelperHierarchy.Items;
 					}
-					else if(paramType == typeof(RDCMethodsItem))
+					else if(paramType == typeof(RCDMethodsItem))
 					{
 						if (CmdHelperStruct.CanShowBehaviours())
 						{
@@ -533,11 +530,11 @@ namespace RakiahDevConsole
 			if (id >= 0 && id < Logs.Count)
 				return Logs[id];
 
-			Debug.Log ("RDC : wrong id for message " + id);
+			Debug.Log ("RCD : wrong id for message " + id);
 			return null;
 		}
 
-		public static Sprite TypeToTexture (LogType type)
+		public Sprite TypeToTexture (LogType type)
 		{
 			return LogTypeTextures[(int)type];
 		}
@@ -550,9 +547,9 @@ namespace RakiahDevConsole
 
 		internal int				currentParam = 0;
 
-		internal RDCItem 			obj = null;
+		internal RCDItem 			obj = null;
 
-		internal RDCMethodsItem 	behavior = null;
+		internal RCDMethodsItem 	behavior = null;
 
 		internal MethodInfo 		method = null;
 

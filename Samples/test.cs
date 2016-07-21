@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Reflection;
-using RakiahDevConsole;
+using RakiahConsoleDevelopper;
 
 public class MyCustomType
 {
@@ -49,7 +49,7 @@ public class test : MonoBehaviour
 	public void Start()
 	{
 		// add it to logger
-		RDCManager.LoggerManager.RegisterCustomType(typeof(MyCustomType), DeserializeMyCustomType);
+		RCDManager.LoggerManager.RegisterCustomType(typeof(MyCustomType), DeserializeMyCustomType);
 	}
 
 	public void Test ()
@@ -70,19 +70,19 @@ public class test : MonoBehaviour
 	}
 
 	[Command("Set the position of an object with a vector3 (separate components using /)")]
-	void SetPosition(RDCItem obj, Vector3 position)
+	void SetPosition(RCDItem obj, Vector3 position)
 	{
 		obj.Obj.transform.position = position;
 	}
 
 	[Command("Set the rotation of an object with a vector3 (separate components using /)")]
-	void SetRotation(RDCItem obj, Vector3 rotation)
+	void SetRotation(RCDItem obj, Vector3 rotation)
 	{
 		obj.Obj.transform.localEulerAngles = rotation;
 	}
 
 	[Command("Set the scale of an object with a vector3 (separate components using /)")]
-	void SetScale(RDCItem obj, Vector3 scale)
+	void SetScale(RCDItem obj, Vector3 scale)
 	{
 		obj.Obj.transform.localScale = scale;	
 	}
@@ -95,7 +95,7 @@ public class test : MonoBehaviour
 	}
 
 	[Command("Invoke a specific method Parameter 1 = object Parameter 2 = Component Parameter 3 = Method name")]
-	void InvokeMethod (RDCItem obj, RDCMethodsItem behav, MethodInfo method)
+	void InvokeMethod (RCDItem obj, RCDMethodsItem behav, MethodInfo method)
 	{
 		behav.behaviour.Invoke(method.Name, 0.1f);
 	}
@@ -103,9 +103,9 @@ public class test : MonoBehaviour
 	[Command("print internal cached items")]
 	void PrintItems ()
 	{
-		for(int i = 0; i < RDCManager.LoggerManager.InternalItems.Count; i ++)
+		for(int i = 0; i < RCDManager.LoggerManager.InternalItems.Count; i ++)
 		{
-			RDCItem item = RDCManager.LoggerManager.InternalItems.Get(i);
+			RCDItem item = RCDManager.LoggerManager.InternalItems.Get(i);
 
 			Debug.Log(item.Obj.name + " : " + item.isParent + " : " + i.ToString());
 		}

@@ -3,9 +3,9 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace RakiahDevConsole
+namespace RakiahConsoleDevelopper
 {
-	public abstract class RDCConsoleLine 
+	public abstract class RCDConsoleLine 
 	{
 		/// <summary> command that was sent (parameters) </summary>
 		public string 		primaryText;
@@ -61,7 +61,7 @@ namespace RakiahDevConsole
 	}
 
 	[System.Serializable]
-	public class LogMessage : RDCConsoleLine
+	public class LogMessage : RCDConsoleLine
 	{
 		/// <summary> id of the message </summary>
 		public float 								timeReceived;
@@ -103,7 +103,7 @@ namespace RakiahDevConsole
 			type = _type;
 
 			base.Initialize(_log, string.Format("{0:0.00}", _timeReceived));
-			typeComponent.sprite = RDCInterface.TypeToTexture(type);
+			typeComponent.sprite = RCDManager.LoggerManager.Interface.TypeToTexture(type);
 		}
 
 		public void Release() 
@@ -129,7 +129,7 @@ namespace RakiahDevConsole
 	}
 
 	[System.Serializable]
-	public class CommandHelperMessage : RDCConsoleLine
+	public class CommandHelperMessage : RCDConsoleLine
 	{
 		private const int 									MaxPoolSize 
 			= 65536;

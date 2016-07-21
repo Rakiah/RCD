@@ -3,15 +3,15 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace RakiahDevConsole
+namespace RakiahConsoleDevelopper
 {
-	public class RDCInternalItems
+	public class RCDInternalItems
 	{
 		///----------Members Part-------------///
 
 		/// <summary> Back end version of Items call Items instead </summary>
-		private List<RDCItem> 			CacheItems
-		= new List<RDCItem>();
+		private List<RCDItem> 			CacheItems
+		= new List<RCDItem>();
 
 		/// <summary> Check if the List is initialized or not </summary>
 		private bool 				Initialized;
@@ -20,7 +20,7 @@ namespace RakiahDevConsole
 		/// Front end version of CacheItems, it always ensure that the list
 		/// is correctly initialized and ready to use
 		/// </summary>
-		internal List<RDCItem> 			Items
+		internal List<RCDItem> 			Items
 		{
 			get
 			{
@@ -57,15 +57,15 @@ namespace RakiahDevConsole
 					continue;
 				}
 				
-				RDCItem item = new RDCItem (pObject);
+				RCDItem item = new RCDItem (pObject);
 				CacheItems.Add(item);
 			}
 
 			Initialized = true;
 		}
 
-		/// <summary> Get a specific RDCItem with an object as key </summary>
-		internal RDCItem Get (int id)
+		/// <summary> Get a specific RCDItem with an object as key </summary>
+		internal RCDItem Get (int id)
 		{
 			if (id >= 0 && id < Items.Count)
 				return Items[id];
@@ -81,7 +81,7 @@ namespace RakiahDevConsole
 		}
 	}
 
-	internal class RDCItem
+	internal class RCDItem
 	{
 		/// <summary> item that the behaviours are attached </summary>
 		public GameObject 								Obj;
@@ -90,10 +90,10 @@ namespace RakiahDevConsole
 		public bool 									isParent;
 
 		/// <summary> list containing all the behaviours </summary>
-		public Dictionary<string, RDCMethodsItem> 		components
-		= new Dictionary<string, RDCMethodsItem> ();
+		public Dictionary<string, RCDMethodsItem> 		components
+		= new Dictionary<string, RCDMethodsItem> ();
 
-		public RDCItem (GameObject _obj)
+		public RCDItem (GameObject _obj)
 		{
 			Obj = _obj;
 			if(_obj.transform.parent == null) 
@@ -109,7 +109,7 @@ namespace RakiahDevConsole
 				if (behaviorNamespace != null)
 					if (behaviorNamespace.Contains("UnityEngine")) 
 						continue;
-				components.Add(behavior.GetType().Name, new RDCMethodsItem(behavior.GetType().GetMethods(	BindingFlags.Public |
+				components.Add(behavior.GetType().Name, new RCDMethodsItem(behavior.GetType().GetMethods(	BindingFlags.Public |
 			                                                                     					BindingFlags.Default |
 			                                                                     					BindingFlags.DeclaredOnly |
 			                                                                     					BindingFlags.Instance), behavior));
@@ -117,7 +117,7 @@ namespace RakiahDevConsole
 		}
 	}
 
-	internal class RDCMethodsItem
+	internal class RCDMethodsItem
 	{
 		/// <summary> Name of the behaviour </summary>
 		public string 							nameBehaviour;
@@ -129,7 +129,7 @@ namespace RakiahDevConsole
 		public Dictionary<string, MethodInfo> 	MethodLookup
 		= new Dictionary<string, MethodInfo>();
 
-		public RDCMethodsItem (MethodInfo [] methods, MonoBehaviour Item)
+		public RCDMethodsItem (MethodInfo [] methods, MonoBehaviour Item)
 		{
 			behaviour = Item;
 			nameBehaviour = Item.GetType().Name;

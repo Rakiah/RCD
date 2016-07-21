@@ -2,21 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace RakiahDevConsole
+namespace RakiahConsoleDevelopper
 {
-	public class RDCManager : MonoBehaviour 
+	public class RCDManager : MonoBehaviour 
 	{
-		public static RDCManager	LoggerManager;
+		public static RCDManager	LoggerManager;
 
-		internal RDCInternalItems 	InternalItems;
+		internal RCDInternalItems 	InternalItems;
 
-		internal RDCInternalMethods	InternalMethods;
+		internal RCDInternalMethods	InternalMethods;
 
-		internal RDCCommands		Commands;
+		internal RCDCommands		Commands;
 
-		internal RDCInterface		Interface;
+		internal RCDInterface		Interface;
 
-		internal RDCSerializer		Serializer;
+		internal RCDSerializer		Serializer;
 
 		public delegate void OnCommandLaunchedEvent(LogMessage log);
 		/// <summary> Fired after a command was succesfully launched </summary>
@@ -30,12 +30,12 @@ namespace RakiahDevConsole
 		{
 			LoggerManager = this;
 
-			Interface = GetComponent<RDCInterface>();
+			Interface = GetComponent<RCDInterface>();
 
-			Commands = new RDCCommands(this);
-			InternalItems = new RDCInternalItems();
-			InternalMethods = new RDCInternalMethods(this);
-			Serializer = new RDCSerializer(this);
+			Commands = new RCDCommands(this);
+			InternalItems = new RCDInternalItems();
+			InternalMethods = new RCDInternalMethods(this);
+			Serializer = new RCDSerializer(this);
 
 			InternalMethods.Initialize();
 			Commands.InitializeMethods();
@@ -106,7 +106,7 @@ namespace RakiahDevConsole
 		public void RegisterDescription (string commandName, string description)
 		{
 			if (!Commands.Exists(commandName))
-				Debug.Log ("RDC || command : " + commandName + "not found for description registering");
+				Debug.Log ("RCD || command : " + commandName + "not found for description registering");
 			Commands.AddDescription(commandName, description);
 		}
 

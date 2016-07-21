@@ -3,16 +3,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace RakiahDevConsole
+namespace RakiahConsoleDevelopper
 {
-	public class RDCSerializer
+	public class RCDSerializer
 	{
 		internal Dictionary<Type, Func<string, object>>	Deserializers =
 		new Dictionary<Type, Func<string, object>>();
 
-		internal RDCManager 				manager;
+		internal RCDManager 				manager;
 
-		public RDCSerializer (RDCManager _manager)
+		public RCDSerializer (RCDManager _manager)
 		{
 			manager = _manager;
 		}
@@ -105,7 +105,7 @@ namespace RakiahDevConsole
 				return (object)tmp;
 			}
 
-			if (type == typeof(RDCItem))
+			if (type == typeof(RCDItem))
 			{
 				int tmp = -1;
 			   	if (!int.TryParse(value, out tmp))
@@ -122,7 +122,7 @@ namespace RakiahDevConsole
 			return null;
 		}
 
-		internal object DeserializeMethodItem (string value, RDCItem item)
+		internal object DeserializeMethodItem (string value, RCDItem item)
 		{
 			if (item == null)
 				return null;
@@ -132,7 +132,7 @@ namespace RakiahDevConsole
 			return null;
 		}
 
-		internal object DeserializeMethod (string value, RDCMethodsItem behaviour)
+		internal object DeserializeMethod (string value, RCDMethodsItem behaviour)
 		{
 			if (behaviour == null)
 				return null;

@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace RakiahDevConsole
+namespace RakiahConsoleDevelopper
 {
 
 	/// <summary> Attribute to identify command method </summary>
@@ -116,12 +116,12 @@ namespace RakiahDevConsole
 		}
 	}
 
-	internal class RDCCommands 
+	internal class RCDCommands 
 	{
 		///----------Members Part-------------///
 
 		/// <summary> Manager for the other core components </summary>
-		private RDCManager							Manager;
+		private RCDManager							Manager;
 
 		/// <summary> 
 		/// Cached Methods (back end dictionary), <Methods> should be called instead,
@@ -173,7 +173,7 @@ namespace RakiahDevConsole
 
 
 
-		public RDCCommands (RDCManager manager)
+		public RCDCommands (RCDManager manager)
 		{
 			Manager = manager;
 		}
@@ -377,17 +377,17 @@ namespace RakiahDevConsole
 				count++;
 
 			object [] paramsobj = new object[count];
-			RDCItem item = null;
-			RDCMethodsItem behavior = null;
+			RCDItem item = null;
+			RCDMethodsItem behavior = null;
 
 			for (i = 0; i < command.ParamCount; i++)
 			{
 				System.Type type = command.GetParamType(i);
 
-				if (type == typeof(RDCMethodsItem))
+				if (type == typeof(RCDMethodsItem))
 				{
 					paramsobj[i] = Manager.Serializer.DeserializeMethodItem(parsedCmd[i + i], item);
-					behavior = (RDCMethodsItem)paramsobj[i];
+					behavior = (RCDMethodsItem)paramsobj[i];
 				}
 
 				else if (type == typeof(MethodInfo))
@@ -398,8 +398,8 @@ namespace RakiahDevConsole
 				else
 				{
 					paramsobj[i] = Manager.Serializer.Deserialize(command.GetParamType(i), parsedCmd[i + 1]);
-					if (type == typeof(RDCItem))
-						item = (RDCItem)paramsobj[i];
+					if (type == typeof(RCDItem))
+						item = (RCDItem)paramsobj[i];
 				}
 
 				if (paramsobj[i] == null)
@@ -467,7 +467,7 @@ namespace RakiahDevConsole
 		internal void PrintCommands ()
 		{
 			foreach (Command command in Methods.Values)
-				Debug.Log("RDC : " + command.Name);
+				Debug.Log("RCD : " + command.Name);
 		}
 
 	}

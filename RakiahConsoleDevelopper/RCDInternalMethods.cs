@@ -2,13 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace RakiahDevConsole
+namespace RakiahConsoleDevelopper
 {
-	public class RDCInternalMethods
+	public class RCDInternalMethods
 	{
-		RDCManager manager;
+		RCDManager manager;
 
-		public RDCInternalMethods(RDCManager _manager)
+		public RCDInternalMethods(RCDManager _manager)
 		{
 			manager = _manager;
 		}
